@@ -97,7 +97,7 @@ LIMIT 3;
 -- F) Mostre o nome e o salário dos supervisores com aumento de 20%.
 SELECT e.pnome, e.unome, e.salario * 1.20 AS novo_salario
 FROM EMPREGADO e
-JOIN DEPARTAMENTO d ON e.ssn = d.gerssn; -- Assuming gerssn in DEPARTAMENTO refers to the supervisor
+JOIN DEPARTAMENTO d ON e.ssn = d.gerssn; 
 
 -- G) Mostre os departamentos e suas localidades.
 SELECT d.dnome AS nome_departamento, l.dlocalizacao AS localizacao
@@ -121,6 +121,121 @@ JOIN TRABALHA t ON p.pnumero = t.pno
 JOIN EMPREGADO e ON t.essn = e.ssn
 WHERE e.pnome = 'Fabio';
 
+--3) Joins: Dadas as tabelas A e B e seus registros (abaixo):
+-- 3 registros para a empresa 1 (que existe na tabela A);
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+INNER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+LEFT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+RIGHT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+FULL OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+
+-- 2 registros para a empresa 2 (que existe na tabela A);
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+INNER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+LEFT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+RIGHT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+FULL OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+
+-- 1 registros para a empresa 3 (que existe na tabela A);
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+INNER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+LEFT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+RIGHT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+FULL OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+-- 0 registros para a empresa 4 (que existe na tabela A);
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+INNER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+LEFT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+RIGHT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+FULL OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+-- 1 registros para a empresa 5 (que existe na tabela A);
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+INNER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+LEFT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+RIGHT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+FULL OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+-- 1 registros para a empresa 8 (que NÃO existe na tabela A)
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+INNER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+LEFT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+RIGHT OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+SELECT A.CODIGO, A.NOME, B.ID, B.VALOR
+FROM TABELA_A A
+FULL OUTER JOIN TABELA_B B ON A.CODIGO = B.CODIGO;
+
+
+
+
+
+
+
+
+
+
+
 --  4) Operações CRUD (Complementar) Suponha que cada uma das seguintes operações de atualização seja aplicada 
 -- diretamente ao estado do banco de dados "empresa”, apresentado na Atividade 1. Escreva o comando DML adequado que:
 
@@ -128,7 +243,7 @@ WHERE e.pnome = 'Fabio';
 -- diferente. Mostre o número de segurança social e o nome completo do empregado.
 SELECT e.ssn, e.pnome, e.inicialm, e.unome
 FROM EMPREGADO e
-JOIN EMPREGADO s ON e.superssn = s.ssn  -- Join com a tabela EMPREGADO novamente para o supervisor
+JOIN EMPREGADO s ON e.superssn = s.ssn  
 WHERE e.dno <> s.dno;  -- Filtra os empregados cujo departamento é diferente do departamento do supervisor
 
 -- b) Mostre o número de segurança social do empregado, o nome do dependente o e
@@ -160,17 +275,19 @@ SELECT DISTINCT e.pnome, e.inicialm, e.unome
 FROM EMPREGADO e
 JOIN TRABALHA t ON e.ssn = t.essn
 JOIN PROJETO p ON t.pno = p.pnumero
-WHERE p.dnum = 5;
+WHERE p.dnum::integer = 5;
 
 -- f) Encontre o nome e o endereço de todos os empregados que trabalhem em pelo menos um
 -- projeto localizado em ‘Curitiba’, mas cujo departamento não se localiza em ‘Curitiba’.
 
-SELECT e.pnome, e.unome, e.endereco
+SELECT DISTINCT e.pnome, e.unome, e.endereco
 FROM EMPREGADO e
 JOIN TRABALHA t ON e.ssn = t.essn
 JOIN PROJETO p ON t.pno = p.pnumero
+JOIN DEPARTAMENTO d ON e.dno = d.dnumero
+JOIN LOCALIZACAO l ON d.dnumero = l.dnum
 WHERE p.plocal = 'Curitiba'
-  AND e.dno NOT IN (SELECT dnumero FROM DEPARTAMENTO WHERE dlocalizacao = 'Curitiba');
+  AND l.dlocalizacao <> 'Curitiba';
  
 
 -- 5) Funções agregadas e nativas - Utilize funções agregadas e/ou nativas
@@ -231,11 +348,18 @@ FROM EMPREGADO;
 
 -- j) Escreva uma consulta que retorne a idade (em anos) que o empregado tinha quando o
 -- dependente de parentesco filhou ou filha nasceu.
-SELECT e.pnome, e.unome, 
-       DATE_PART('year', d.datanascdep) - DATE_PART('year', e.datanasc) AS idade_nascimento_dependente
-FROM EMPREGADO e
-JOIN DEPENDENTE d ON e.ssn = d.essn
-WHERE d.parentesco IN ('Filho', 'Filha'); -- Filtra apenas dependentes que são filhos ou filhas
+SELECT 
+    e.pnome, 
+    e.unome, 
+    d.nomedep, 
+    d.parentesco,
+    DATE_PART('year', AGE(d.datanascdep, e.datanasc)) AS idade_empregado
+FROM 
+    EMPREGADO e
+JOIN 
+    DEPENDENTE d ON e.ssn = d.essn
+WHERE 
+    d.parentesco IN ('FILHO', 'FILHA'); 
 
 -- k) Escreva uma consulte que conte o número de dependentes por ano de nascimento.
 SELECT EXTRACT(YEAR FROM datanascdep) AS ano_nascimento, COUNT(*) AS numero_dependentes
@@ -264,17 +388,22 @@ GROUP BY p.pjnome;
 
 -- a) Recupere nome (pnome e unome) de cada um dos empregados que tenham um dependente
 -- cujo primeiro nome e sexo sejam o mesmo do empregado em questão.
-SELECT p.pjnome AS nome_projeto, SUM(e.salario) AS valor_mensal_projeto
+SELECT DISTINCT e.pnome, e.unome
 FROM EMPREGADO e
-JOIN TRABALHA t ON e.ssn = t.essn
-JOIN PROJETO p ON t.pno = p.pnumero
-GROUP BY p.pjnome;
+JOIN DEPENDENTE d ON e.ssn = d.essn
+WHERE e.pnome = d.nomedep
+  AND e.sexo = d.sexodep;
 
 -- b) Recupere os nomes dos empregados (pnome e unome) cujos salrios so maiores que a 
 -- media dos salrios dos empregados do departamento 5.
-SELECT pnome, unome
-FROM EMPREGADO
-WHERE salario > (SELECT AVG(salario) FROM EMPREGADO WHERE dno = 5);
+
+SELECT e.pnome, e.unome
+FROM EMPREGADO e
+WHERE e.salario > (
+    SELECT AVG(salario)
+    FROM EMPREGADO
+    WHERE dno = '5'
+);
 
 -- c) Retorne o nmero do seguro social (SSN) de todos os empregado que trabalham com a mesma 
 -- combinao (projeto, horas) em algum dos projetos em que o empregado ‘Fabio Will’ (SSN= 333445555) trabalhe.
@@ -325,15 +454,17 @@ SELECT ssn, pnome, sexo, endereco, datanasc
 FROM empregado;
 
 -- b) Utilize o comando EXPLAIN ANALYSE e anote o tempo de execuo da consulta SELECT *FROM TEMPEMPREGADO.
-EXPLAIN ANALYZE SELECT * FROM tempEmpregado;
+EXPLAIN ANALYZE
+SELECT * FROM TEMPEMPREGADO;
 
 -- c) Crie um indice com o campo ssn que no permite dados duplicados para a tabela
 --  tempEmpregado, utilizando o algoritmo de ordenao BTREE.
-CREATE UNIQUE INDEX idx_ssn ON tempEmpregado (ssn) USING BTREE;
+CREATE UNIQUE INDEX idx_ssn_unique ON tempEmpregado (ssn);
+--o tipo de índice B-tree é o padrão, portanto, você não precisa especificar USING BTREE explicitamente.
 
 -- d) Crie um indice com o campo pnome para a tabela tempEmpregado, em ordem decrescente
 -- e que utilize o algoritmo de ordenao HASH.
-CREATE INDEX idx_pnome ON tempEmpregado (pnome DESC) USING HASH;
+CREATE INDEX idx_pnome_hash ON tempEmpregado USING HASH (pnome);
 
 -- e) Utilize o comando EXPLAIN ANALYSE, anote e compare com o tempo de execuo da
 -- consulta SELECT * FROM TEMPEMPREGADO. O que achou do resultado?
@@ -374,18 +505,19 @@ DROP VIEW TRABALHA_EM;
 -- departamento, e o total de empregados e somatório dos salários dos empregados da tabela
 -- empregado por departamento
 CREATE VIEW DEPTO_INFO AS
-SELECT d.dnome, COUNT(e.ssn) AS total_empregados, SUM(e.salario) AS soma_salarios
+SELECT d.dnome, 
+       COUNT(e.ssn) AS total_empregados, 
+       SUM(e.salario) AS soma_salarios
 FROM departamento d
 LEFT JOIN empregado e ON d.dnumero = e.dno
 GROUP BY d.dnome;
 
+
 -- e) Crie uma consulta SQL na visão implementada no item c que retorne a lista de informações
 -- por departamentos ordenados pelo somatório dos salários.
-CREATE VIEW DEPTO_INFO AS
-SELECT d.dnome, COUNT(e.ssn) AS total_empregados, SUM(e.salario) AS soma_salarios
-FROM departamento d
-LEFT JOIN empregado e ON d.dnumero = e.dno
-GROUP BY d.dnome;
+SELECT *
+FROM DEPTO_INFO
+ORDER BY soma_salarios DESC;
 
 -- f) Exclua as visões criadas nos itens a.
 DROP VIEW DEPTO_INFO;
