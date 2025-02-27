@@ -1,0 +1,12 @@
+psql -h host -p port -U username -d database
+
+
+psql -h db.szoywsvuvrehowhfbxrf.supabase.co -p 5432 -U postgres -d postgres
+
+psql -h aws-0-sa-east-1.pooler.supabase.com -p 5432 -U postgres.szoywsvuvrehowhfbxrf -d postgres
+
+
+psql -U postgres.szoywsvuvrehowhfbxrf -d postgres < demo-small-en-20140815.sql
+
+
+efrI8RQ75yzE8zdu
