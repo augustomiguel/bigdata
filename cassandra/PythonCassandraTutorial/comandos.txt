@@ -1,0 +1,7 @@
+docker run --name cas1 -p 9042:9042 -v /mnt/c/Users/augus/Documents/bigdata/cassandra/PythonCassandraTutorial/data/node1:/var/lib/cassandra/data -e CASSANDRA_CLUSTER_NAME=MeuCluster -e CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch -e CASSANDRA_DC=datacenter1 -d cassandra:latest
+a8754919ffe07838a38f6820273c56dbe49c4c39ebf79655669099d947258ff7
+
+docker exec -it cas1 nodetool status
+
+docker run --name cas2 -p 9043:9042  -v /mnt/c/Users/augus/Documents/bigdata/cassandra/PythonCassandraTutorial/data/node2:/var/lib/cassandra/data -e CASSANDRA_SEEDS="172.17.0.2:7000" -e CASSANDRA_CLUSTER_NAME=MeuCluster -e CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch -e CASSANDRA_DC=datacenter1 -d cassandra:latest
+724b89fe853ad947da0ebe66b97e4b1e108a18eaa3f2eca89afb60b0592542f3
