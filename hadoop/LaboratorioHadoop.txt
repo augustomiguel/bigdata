@@ -1,0 +1,164 @@
+# Solução para os Exercícios de Laboratório Hadoop
+
+## Exercício 1: Calculando médias
+
+### Algoritmo MapReduce para (ano, temperatura_media)
+
+**Mapper:**
+
+def mapper(linha):
+    ano, mes, temperatura = linha.split(',')
+    yield (ano, (float(temperatura), 1))  # (chave, (temperatura, contador))
+
+
+**Reducer:**
+
+def reducer(ano, valores):
+    soma = 0
+    contador = 0
+    for temp, cnt in valores:
+        soma += temp * cnt
+        contador += cnt
+    media = soma / contador
+    yield (ano, media)
+
+### Exercício 1.2: Número máximo de medições em um ano
+
+O número máximo de medições em um ano seria:
+- 1 medição por segundo
+- 60 segundos/minuto × 60 minutos/hora × 24 horas/dia × 365 dias/ano = 31.536.000 medições/ano
+
+### Exercício 1.3: Discussão sobre eficiência
+
+A primeira implementação pode ser ineficiente para grandes volumes de dados porque:
+1. O mapper emite um par chave-valor para cada linha, o que pode ser muito numeroso
+2. O reducer precisa processar todos esses valores, o que pode causar gargalo
+3. Não há nenhum combiner para reduzir a quantidade de dados transferidos
+
+### Exercício 1.4: Implementação melhorada
+
+Podemos melhorar adicionando um combiner e processando em blocos:
+
+**Mapper melhorado:**
+
+def mapper(linha):
+    ano, mes, dia, minuto, segundo, temp = linha.split(',')
+    yield (ano, (float(temp), 1))
+
+
+**Combiner:**
+
+def combiner(ano, valores):
+    soma = 0
+    contador = 0
+    for temp, cnt in valores:
+        soma += temp
+        contador += cnt
+    yield (ano, (soma, contador))
+
+**Reducer:** (o mesmo que antes)
+def reducer(ano, valores):
+    soma = 0
+    contador = 0
+    for temp, cnt in valores:
+        soma += temp * cnt
+        contador += cnt
+    media = soma / contador
+    yield (ano, media)
+
+
+## Exercício 2: Calculando média e desvio padrão
+
+### Exercício 2.1: Equação mais apropriada
+
+A segunda equação (que usa soma, soma dos quadrados e contagem) é mais apropriada para MapReduce porque:
+1. Podemos calcular essas três estatísticas (soma, soma dos quadrados, contagem) de forma incremental
+2. Podemos combinar resultados parciais facilmente
+3. Não precisamos manter todos os valores na memória
+
+### Exercício 2.2: Implementação MapReduce
+
+**Mapper:**
+
+def mapper(linha):
+    ano, mes, dia, minuto, segundo, temp = linha.split(',')
+    temp = float(temp)
+    yield (ano, (temp, temp**2, 1))  # (soma, soma_quadrados, contagem)
+
+
+**Combiner/Reducer:**
+
+def reducer(ano, valores):
+    soma = 0
+    soma_quadrados = 0
+    contagem = 0
+    
+    for s, sq, cnt in valores:
+        soma += s
+        soma_quadrados += sq
+        contagem += cnt
+    
+    media = soma / contagem
+    variancia = (soma_quadrados/contagem) - media**2
+    desvio_padrao = math.sqrt(variancia)
+    
+    yield (ano, (media, desvio_padrao))
+
+
+## Exercício 3: Amigos comuns em rede social
+
+### Exercício 3.1: Implementação MapReduce
+
+**Mapper:**
+
+def mapper(linha):
+    amigos = linha.strip().split(',')
+    amigos = [a.strip() for a in amigos]
+    
+    # Emite todos os pares de amigos ordenados
+    for i in range(len(amigos)):
+        for j in range(i+1, len(amigos)):
+            par = tuple(sorted((amigos[i], amigos[j])))
+            # Emite (par, lista de amigos exceto os dois do par)
+            outros_amigos = [a for a in amigos if a not in par]
+            yield (par, set(outros_amigos))
+
+
+**Reducer:**
+
+def reducer(par, listas_amigos):
+    amigos_comuns = set(listas_amigos[0])
+    for amigos in listas_amigos[1:]:
+        amigos_comuns.intersection_update(amigos)
+    
+    if amigos_comuns:
+        yield (par, sorted(amigos_comuns))
+
+
+## Exercício 4: Índice invertido
+
+### Exercício 4.1: Implementação MapReduce
+
+**Mapper:**
+
+def mapper(documento):
+    conteudo = ler_documento(documento)
+    palavras = extrair_palavras(conteudo)  # remove stopwords, aplica stemming etc.
+    
+    for palavra in set(palavras):  # set para evitar duplicatas no mesmo doc
+        yield (palavra, documento)
+
+
+**Reducer:**
+
+def reducer(palavra, documentos):
+    documentos_unicos = sorted(list(set(documentos)))  # remove duplicatas
+    yield (palavra, documentos_unicos)
+
+
+**Otimização:** Podemos usar um combiner para reduzir o número de valores transferidos:
+
+**Combiner:**
+
+def combiner(palavra, documentos):
+    yield (palavra, list(set(documentos)))
